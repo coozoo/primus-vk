@@ -21,21 +21,28 @@ public:
   VKAPI_ATTR VkResult VKAPI_CALL (*negotiateVersion)(uint32_t* pSupportedVersion);
 public:
   StaticInitialize(){
+    std::cout << "Nvidia wrapper: loading\n";
     // Load libGL from LD_LIBRARY_PATH before loading the NV-driver (unluckily also named libGL
     // This ensures that ld.so will find this libGL before the Nvidia one, when
     // again asked to load libGL.
     glLibGL = dlopen("libGL.so.1", RTLD_GLOBAL | RTLD_NOW);
 
+    char *prev = getenv("DISPLAY");
+    std::string old{prev};
+    setenv("DISPLAY", ":8", 1);
     nvDriver = dlopen(NV_DRIVER_PATH, RTLD_LOCAL | RTLD_LAZY);
+    setenv("DISPLAY",old.c_str(), 1);
     if(!nvDriver) {
       std::cerr << "PrimusVK: ERROR! Nvidia driver could not be loaded from '" NV_DRIVER_PATH "'.\n";
       return;
     }
+    std::cout << "Nvidia wrapper: dlopen done\n";
     typedef void* (*dlsym_fn)(void *, const char*);
     static dlsym_fn real_dlsym = (dlsym_fn) dlsym(dlopen("libdl.so.2", RTLD_LAZY), "dlsym");
     instanceProcAddr = (decltype(instanceProcAddr)) real_dlsym(nvDriver, "vk_icdGetInstanceProcAddr");
     phyProcAddr = (decltype(phyProcAddr)) real_dlsym(nvDriver, "vk_icdGetPhysicalDeviceProcAddr");
     negotiateVersion = (decltype(negotiateVersion)) real_dlsym(nvDriver, "vk_icdNegotiateLoaderICDInterfaceVersion");
+    std::cout << "Nvidia wrapper: dlsym done\n";
   }
   ~StaticInitialize(){
     if(nvDriver)
@@ -53,24 +60,30 @@ extern "C" VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetInstanceProcAddr(
                                                VkInstance instance,
                                                const char* pName){
   if (!init.IsInited()) return nullptr;
+  std::cout << "Nvidia wrapper: GIPA\n";
   auto res = init.instanceProcAddr(instance, pName);
+  std::cout << "Nvidia wrapper: GIPA done\n";
   return res;
 }
 
 extern "C" VKAPI_ATTR PFN_vkVoidFunction vk_icdGetPhysicalDeviceProcAddr(VkInstance instance,
 						    const char* pName){
   if (!init.IsInited()) return nullptr;
+  std::cout << "Nvidia wrapper: GPDPA\n";
   auto res = init.phyProcAddr(instance, pName);
+  std::cout << "Nvidia wrapper: GPDPA done\n";
   return res;
 }
 extern "C" VKAPI_ATTR VkResult VKAPI_CALL vk_icdNegotiateLoaderICDInterfaceVersion(uint32_t* pSupportedVersion){
   if (!init.IsInited()) {
     return VK_ERROR_INCOMPATIBLE_DRIVER;
   }
+  std::cout << "Nvidia wrapper: negotiate\n";
   char *prev = getenv("DISPLAY");
   std::string old{prev};
   setenv("DISPLAY", ":8", 1);
   auto res = init.negotiateVersion(pSupportedVersion);
   setenv("DISPLAY",old.c_str(), 1);
+  std::cout << "Nvidia wrapper: negotiate done\n";
   return res;
 }
