@@ -593,6 +593,14 @@ public:
 		   1,
 		   &imageCopyRegion);
   }
+  void clearImage(VkImage toClear) {
+    VkClearColorValue clearValue = {};
+    VkImageSubresourceRange range = {};
+    range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT | VK_IMAGE_ASPECT_DEPTH_BIT;
+    range.levelCount = 1;
+    range.layerCount = 1;
+    device_dispatch[GetKey(device)].CmdClearColorImage(cmd, toClear, VK_IMAGE_LAYOUT_GENERAL, &clearValue, 1, &range);
+  }
   void end(){
     VK_CHECK_RESULT(device_dispatch[GetKey(device)].EndCommandBuffer(cmd));
   }
@@ -713,6 +721,7 @@ VkLayerDispatchTable fetchDispatchTable(PFN_vkGetDeviceProcAddr gdpa, VkDevice *
   _FETCH(AllocateCommandBuffers);
   FETCH(BeginCommandBuffer);
   FETCH(CmdCopyImage);
+  FETCH(CmdClearColorImage);
   FETCH(CmdPipelineBarrier);
   FETCH(CreateCommandPool);
   //FETCH(CreateDevice);
@@ -921,10 +930,10 @@ void PrimusSwapchain::createCommandBuffers(){
     cmd.insertImageMemoryBarrier(
 	srcImage,
 	VK_ACCESS_TRANSFER_READ_BIT,		VK_ACCESS_MEMORY_READ_BIT,
-	VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,	VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+	VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,	VK_IMAGE_LAYOUT_GENERAL,
 	VK_PIPELINE_STAGE_TRANSFER_BIT,		VK_PIPELINE_STAGE_TRANSFER_BIT,
 	VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
-
+    cmd.clearImage(srcImage);
     cmd.end();
   }
   for(uint32_t index = 0; index < display_commands.size(); index++){
