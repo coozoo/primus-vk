@@ -992,6 +992,14 @@ void PrimusSwapchain::copyImageData(uint32_t index, std::vector<VkSemaphore> sem
 	display_offset += display_layout.rowPitch;
       }
     }
+    for(int i=0;i<100;i++){
+    for(int j=0;j<100;j++){
+      display_start[display_layout.rowPitch * i + j*4] = 0x00;
+	display_start[display_layout.rowPitch * i + j*4+1] = 0x00;
+	display_start[display_layout.rowPitch * i + j*4+2] = 0xff;
+      display_start[display_layout.rowPitch * i + j*4+3] = 0xff;
+    }
+    }
     TRACE_PROFILING_EVENT(index, "memcpy done");
   }
   {
