@@ -1238,9 +1238,11 @@ VK_LAYER_EXPORT VkResult VKAPI_CALL PrimusVK_EnumeratePhysicalDevices(
   res = instance_dispatch[GetKey(instance)].EnumeratePhysicalDevices(instance, pPhysicalDeviceCount, vec.data());
   if(res != VK_SUCCESS) return res;
   pPhysicalDevices[0] = info.render;
+  TRACE("Application gets device: " << (void*) info.render);
   *pPhysicalDeviceCount = cnt;
   if(cnt >= 2){
     pPhysicalDevices[1] = info.display;
+    TRACE("Application gets device: " << (void*) info.display);
   }
   return res;
 }
@@ -1256,6 +1258,7 @@ VK_LAYER_EXPORT VkResult VKAPI_CALL PrimusVK_EnumeratePhysicalDeviceGroups(
     pPhysicalDeviceGroupProperties[0].physicalDeviceCount = 1;
     pPhysicalDeviceGroupProperties[0].physicalDevices[0] = info.render;
     pPhysicalDeviceGroupProperties[0].subsetAllocation = VK_FALSE;
+    TRACE("Application gets device group with: " << (void*) info.render);
   }
   return VK_SUCCESS;
 }
