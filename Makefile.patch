@@ -1,11 +1,14 @@
---- Makefile	2020-06-01 12:19:23.000000000 +0300
-+++ Makefile.patched	2020-06-01 13:04:25.089209701 +0300
-@@ -13,7 +13,9 @@
+--- Makefile	2020-06-02 01:10:39.399768209 +0300
++++ Makefile.new	2020-06-02 01:08:28.524419647 +0300
+@@ -11,9 +11,11 @@
+ datarootdir   = ${PREFIX}/share
+ datadir       = ${datarootdir}
  
- override CXXFLAGS += --std=gnu++11 -g3
+-override CXXFLAGS += --std=gnu++11 -g3
++CXXFLAGS += --std=gnu++11 -g3
  
 -all: libprimus_vk.so libnv_vulkan_wrapper.so
-+CXXFLAGS += -DNV_DRIVER_PATH=\"/usr/lib64/libGLX_nvidia.so.0\"
++CXXFLAGS += -DNV_DRIVER_PATH=\"libGLX_nvidia.so.0\"
 +
 +all: libprimus_vk.so libnv_vulkan_wrapper.so primus_vk_diag
  
