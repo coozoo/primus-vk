@@ -20,6 +20,7 @@ BuildRequires: git
 BuildRequires: gcc-c++
 BuildRequires: vulkan-devel
 BuildRequires: vulkan-headers
+BuildRequires: wayland-devel
 BuildRequires: libxcb-devel
 BuildRequires: mesa-libGL-devel
 %if 0%{?fedora} >= 29
