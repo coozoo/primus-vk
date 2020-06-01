@@ -5,7 +5,7 @@
  override CXXFLAGS += --std=gnu++11 -g3
  
 -all: libprimus_vk.so libnv_vulkan_wrapper.so
-+CXXFLAGS += -DNV_DRIVER_PATH=\"libGLX_nvidia.so.0\"
++CXXFLAGS += -DNV_DRIVER_PATH=\"/usr/lib64/libGLX_nvidia.so.0\"
 +
 +all: libprimus_vk.so libnv_vulkan_wrapper.so primus_vk_diag
  
