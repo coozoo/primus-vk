@@ -1,0 +1,22 @@
+--- Makefile	2020-06-01 12:19:23.000000000 +0300
++++ Makefile.patched	2020-06-01 13:04:25.089209701 +0300
+@@ -13,7 +13,9 @@
+ 
+ override CXXFLAGS += --std=gnu++11 -g3
+ 
+-all: libprimus_vk.so libnv_vulkan_wrapper.so
++CXXFLAGS += -DNV_DRIVER_PATH=\"libGLX_nvidia.so.0\"
++
++all: libprimus_vk.so libnv_vulkan_wrapper.so primus_vk_diag
+ 
+ libprimus_vk.so: primus_vk.cpp
+ 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I/usr/include/vulkan -shared -fPIC $^ -o $@ -Wl,-soname,libprimus_vk.so.1 -ldl -lpthread $(LDFLAGS)
+@@ -30,7 +32,7 @@
+ primus_vk.cpp: primus_vk_forwarding.h primus_vk_forwarding_prototypes.h
+ 
+ primus_vk_diag: primus_vk_diag.o
+-	$(CXX) -g3 -o $@ $^ -lX11 -lvulkan -ldl $(LDFLAGS)
++	$(CXX) $(CXXFLAGS) -g3 -o $@ $^ -lX11 -lvulkan -ldl $(LDFLAGS)
+ 
+ clean:
+ 	rm -f libnv_vulkan_wrapper.so libprimus_vk.so
