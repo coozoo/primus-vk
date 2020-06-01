@@ -1,9 +1,9 @@
-%define _version %(echo "$(git ls-remote https://github.com/coozoo/primus-vk|grep tags|tail -n1|grep -oP '(?<=tags\/).+(?=\^{})')")
+%define _version %(echo "$(curl --silent "https://api.github.com/repos/coozoo/primus-vk/tags"|grep name|head -1|grep -oP '(?<=name\": \").+(?=\",)')")
 
 %define _date #%(date +"%Y%m%d")
 
 Name:           primus-vk
-Version:        %(echo "$(git ls-remote https://github.com/coozoo/primus-vk|grep tags|tail -n1|grep -oP '(?<=tags\/).+(?=\^{})')")
+Version:        %(echo "$(curl --silent "https://api.github.com/repos/coozoo/primus-vk/tags"|grep name|head -1|grep -oP '(?<=name\": \").+(?=\",)')")
 Release:        3%{?dist}
 Summary:        Primus-Vk Nvidia Vulkan offloading for Bumblebee
 License:        BSD
