@@ -16,12 +16,13 @@ Source2:        https://raw.githubusercontent.com/coozoo/primus-vk/master/rpm/pr
 # Patch for makefile to use provided compiler flags
 Patch0:         https://raw.githubusercontent.com/coozoo/primus-vk/master/Makefile.patch
 
-BuildRequires:  gcc-c++
-BuildRequires:  vulkan-devel
-BuildRequires:  libxcb-devel
-BuildRequires:  mesa-libGL-devel
+BuildRequires: git
+BuildRequires: gcc-c++
+BuildRequires: vulkan-devel
+BuildRequires: libxcb-devel
+BuildRequires: mesa-libGL-devel
 %if 0%{?fedora} >= 29
-BuildRequires:  vulkan-validation-layers-devel
+BuildRequires: vulkan-validation-layers-devel
 %endif
 
 Requires:       vulkan-filesystem
