@@ -82,8 +82,9 @@ fi
 
 %files libs
 %{_libdir}/libnv_vulkan_wrapper.so
+%{_libdir}/libnv_vulkan_wrapper.so.1
 %{_libdir}/libprimus_vk.so
-
+%{_libdir}/libprimus_vk.so.1
 
 %changelog
 * Mon Jun 1 2020 Yuriy Kuzin
