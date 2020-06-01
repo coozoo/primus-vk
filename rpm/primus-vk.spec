@@ -10,8 +10,8 @@ License:        BSD
 Group:          Hardware/Other
 Url:            https://github.com/felixdoerre/primus_vk
 Source0:        https://github.com/coozoo/primus-vk/archive/master.zip#/%{name}-%{version}-%{release}.gz
-Source1:        pvkrun
-Source2:        primus_vk_wrapper.json
+Source1:        https://raw.githubusercontent.com/coozoo/primus-vk/master/rpm/pvkrun
+Source2:        https://raw.githubusercontent.com/coozoo/primus-vk/master/rpm/primus_vk_wrapper.json
 
 # Patch for makefile to use provided compiler flags
 Patch0:         https://raw.githubusercontent.com/coozoo/primus-vk/master/Makefile.patch
@@ -53,9 +53,9 @@ make %{?_smp_mflags}
 install -D "libnv_vulkan_wrapper.so" "%{buildroot}%{_libdir}/libnv_vulkan_wrapper.so"
 install -D "libprimus_vk.so" "%{buildroot}%{_libdir}/libprimus_vk.so"
 install -Dm 755 "primus_vk_diag" "%{buildroot}%{_bindir}/primus_vk_diag"
-install -Dm 755 "%{buildroot}/rpm/pvkrun" "%{buildroot}%{_bindir}/pvkrun"
+install -Dm 755 "%{_builddir}/primus-vk-master/rpm/pvkrun" "%{buildroot}%{_bindir}/pvkrun"
 install -Dm 644 "primus_vk.json" "%{buildroot}%{_datadir}/vulkan/implicit_layer.d/primus_vk.json"
-install -Dm 644 "%{buildroot}/rpm/primus_vk_wrapper.json" "%{buildroot}%{_datadir}/vulkan/icd.d/primus_vk_wrapper.json"
+install -Dm 644 "%{_builddir}/primus-vk-master/rpm/primus_vk_wrapper.json" "%{buildroot}%{_datadir}/vulkan/icd.d/primus_vk_wrapper.json"
 
 %post
 ICDLIST=$(find /etc/vulkan/icd.d/ /usr/share/vulkan/icd.d/ -name "nvidia_icd*.json" -type f)
