@@ -23,9 +23,7 @@ BuildRequires: vulkan-headers
 BuildRequires: wayland-devel
 BuildRequires: libxcb-devel
 BuildRequires: mesa-libGL-devel
-%if 0%{?fedora} >= 29
 BuildRequires: vulkan-validation-layers-devel
-%endif
 
 Requires:       vulkan-filesystem
 Requires:       bumblebee
