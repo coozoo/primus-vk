@@ -4,7 +4,7 @@
 
 Name:           primus-vk
 Version:        %(echo "$(curl --silent "https://api.github.com/repos/coozoo/primus-vk/tags"|grep name|head -1|grep -oP '(?<=name\": \").+(?=\",)')")
-Release:        3%{?dist}
+Release:        %{_date}%{?dist}
 Summary:        Primus-Vk Nvidia Vulkan offloading for Bumblebee
 License:        BSD
 Group:          Hardware/Other
