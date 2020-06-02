@@ -9,7 +9,7 @@ Summary:        Primus-Vk Nvidia Vulkan offloading for Bumblebee
 License:        BSD
 Group:          Hardware/Other
 Url:            https://github.com/felixdoerre/primus_vk
-Source0:        https://github.com/coozoo/primus-vk/archive/master.zip#/%{name}-%{version}-%{release}.gz
+Source0:        https://github.com/coozoo/primus-vk/archive/master.zip#/%{name}-%{version}.gz
 Source1:        https://raw.githubusercontent.com/coozoo/primus-vk/master/rpm/pvkrun
 Source2:        https://raw.githubusercontent.com/coozoo/primus-vk/master/rpm/primus_vk_wrapper.json
 
