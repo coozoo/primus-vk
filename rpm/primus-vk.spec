@@ -1,6 +1,6 @@
 %define _version %(echo "$(curl --silent "https://api.github.com/repos/coozoo/primus-vk/tags"|grep name|head -1|grep -oP '(?<=name\": \").+(?=\",)')")
 
-%define _date #%(date +"%Y%m%d")
+%define _date %(date +"%Y%m%d")
 
 Name:           primus-vk
 Version:        %(echo "$(curl --silent "https://api.github.com/repos/coozoo/primus-vk/tags"|grep name|head -1|grep -oP '(?<=name\": \").+(?=\",)')")
